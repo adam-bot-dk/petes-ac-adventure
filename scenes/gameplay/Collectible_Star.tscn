@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://star"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/Collectible_Star.gd" id="1_star"]
+
+[sub_resource type="RectangleShape2D" id="1_star_shape"]
+size = Vector2(48, 48)
+
+[node name="Collectible_Star" type="Area2D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_star")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+region_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+shape = SubResource("1_star_shape")

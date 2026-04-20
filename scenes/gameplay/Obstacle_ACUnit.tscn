@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://acunit"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/Obstacle_ACUnit.gd" id="1_acunit"]
+
+[sub_resource type="RectangleShape2D" id="1_acunit_shape"]
+size = Vector2(100, 80)
+
+[node name="Obstacle_ACUnit" type="Area2D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_acunit")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+region_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+shape = SubResource("1_acunit_shape")

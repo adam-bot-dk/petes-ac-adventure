@@ -1,0 +1,176 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud"]
+
+[ext_resource type="Script" path="res://scenes/main/HUD.gd" id="1_hud"]
+
+[node name="HUD" type="Control"]
+mouse_filter = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hud")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer/ScoreContainer"]
+layout_mode = 2
+text = "SCORE"
+horizontal_alignment = 1
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 120.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="ScoreValue" type="Label" parent="VBoxContainer/ScoreContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+offset_left = 130.0
+offset_top = 5.0
+offset_right = 230.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+
+[node name="CoinContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="CoinLabel" type="Label" parent="VBoxContainer/CoinContainer"]
+layout_mode = 2
+text = "FISH"
+horizontal_alignment = 1
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 100.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+
+[node name="CoinValue" type="Label" parent="VBoxContainer/CoinContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+offset_left = 110.0
+offset_top = 5.0
+offset_right = 190.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="StarContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -150.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 110.0
+grow_horizontal = 2
+
+[node name="StarLabel" type="Label" parent="VBoxContainer/StarContainer"]
+layout_mode = 2
+text = "STARS"
+horizontal_alignment = 1
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 100.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+
+[node name="StarValue" type="Label" parent="VBoxContainer/StarContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+offset_left = 110.0
+offset_top = 5.0
+offset_right = 190.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="LivesContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 400.0
+offset_top = 20.0
+offset_right = 480.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="Heart1" type="Label" parent="VBoxContainer/LivesContainer"]
+layout_mode = 2
+text = "♥"
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="Heart2" type="Label" parent="VBoxContainer/LivesContainer"]
+layout_mode = 2
+text = "♥"
+theme_override_colors/font_color = Color(0.5, 0, 0, 1)
+
+[node name="Heart3" type="Label" parent="VBoxContainer/LivesContainer"]
+layout_mode = 2
+text = "♥"
+theme_override_colors/font_color = Color(0.5, 0, 0, 1)
+
+[node name="PauseButton" type="Button" parent="VBoxContainer"]
+mouse_filter = 0
+layout_mode = 2
+anchors_preset = 8
+anchor_left = 0.95
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 660.0
+offset_top = 15.0
+offset_right = 705.0
+offset_bottom = 60.0
+text = "⏸"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30

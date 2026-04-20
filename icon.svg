@@ -1,0 +1,13 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#E31837" rx="180"/>
+  <circle cx="512" cy="450" r="180" fill="white"/>
+  <ellipse cx="512" cy="480" rx="130" ry="140" fill="black"/>
+  <circle cx="460" cy="450" r="25" fill="white"/>
+  <circle cx="564" cy="450" r="25" fill="white"/>
+  <circle cx="460" cy="450" r="10" fill="black"/>
+  <circle cx="564" cy="450" r="10" fill="black"/>
+  <polygon points="512,420 480,470 544,470" fill="orange"/>
+  <rect x="440" y="560" width="144" height="80" rx="20" fill="#1E3A8A"/>
+  <text x="512" y="615" text-anchor="middle" font-family="Arial" font-size="40" font-weight="bold" fill="white">PURE</text>
+  <text x="512" y="660" text-anchor="middle" font-family="Arial" font-size="35" fill="white">HEATING</text>
+</svg>

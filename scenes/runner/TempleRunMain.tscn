@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://temple_run_main"]
+
+[ext_resource type="Script" path="res://scripts/runner/temple_run_main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://player_runner_3d" path="res://scenes/runner/PlayerRunner3D.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/runner/runner_spawner_3d.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://runner_obstacle_3d" path="res://scenes/runner/RunnerObstacle.tscn" id="4_obs"]
+[ext_resource type="PackedScene" uid="uid://runner_pickup_3d" path="res://scenes/runner/RunnerPickup.tscn" id="5_pick"]
+[ext_resource type="Script" path="res://scripts/runner/runner_camera_3d.gd" id="6_cam"]
+[ext_resource type="PackedScene" uid="uid://hud" path="res://scenes/main/HUD.tscn" id="7_hud"]
+[ext_resource type="PackedScene" uid="uid://gameover" path="res://scenes/main/GameOver.tscn" id="8_go"]
+[ext_resource type="Script" path="res://scripts/runner/street_visuals.gd" id="9_street"]
+
+[sub_resource type="StandardMaterial3D" id="FloorBaseMat"]
+albedo_color = Color(0.5, 0.48, 0.45, 1)
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(52, 0.25, 10000)
+
+[sub_resource type="BoxMesh" id="FloorMesh"]
+size = Vector3(52, 0.25, 10000)
+
+[node name="TempleRunMain" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906, -0.2, 0.371, 0, 0.88, 0.475, -0.422, -0.431, 0.798, 2, 14, 10)
+light_energy = 1.35
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -5000)
+shape = SubResource("FloorShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -5000)
+mesh = SubResource("FloorMesh")
+surface_material_override/0 = SubResource("FloorBaseMat")
+
+[node name="StreetVisuals" type="Node3D" parent="."]
+script = ExtResource("9_street")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="ObstacleSpawner" type="Node3D" parent="."]
+script = ExtResource("3_spawner")
+obstacle_scene = ExtResource("4_obs")
+pickup_scene = ExtResource("5_pick")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 6.2)
+current = true
+fov = 58.0
+script = ExtResource("6_cam")
+target_path = NodePath("../Player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("7_hud")]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("8_go")]

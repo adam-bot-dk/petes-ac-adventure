@@ -1,0 +1,177 @@
+[gd_scene load_steps=2 format=3 uid="uid://gameover"]
+
+[ext_resource type="Script" path="res://scenes/main/GameOver.gd" id="1_gameover"]
+
+[node name="GameOver" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_gameover")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 160.0
+offset_right = -40.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "GAME OVER"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.89, 0.15, 0.2, 1)
+theme_override_font_sizes/font_size = 44
+
+[node name="BrandLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Pure Heating & Air — Pete's run for cool air"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.65, 0.78, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="ResultHintLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "You ran out of lives."
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 0.86, 0.7, 1)
+
+[node name="BestRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="BestKey" type="Label" parent="Panel/VBox/BestRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Best score"
+horizontal_alignment = 2
+
+[node name="BestValue" type="Label" parent="Panel/VBox/BestRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 22
+
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="ScoreKey" type="Label" parent="Panel/VBox/ScoreRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Score"
+horizontal_alignment = 2
+
+[node name="ScoreValue" type="Label" parent="Panel/VBox/ScoreRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 28
+
+[node name="StarsRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="StarsKey" type="Label" parent="Panel/VBox/StarsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Stars this run"
+horizontal_alignment = 2
+
+[node name="StarsValue" type="Label" parent="Panel/VBox/StarsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 24
+
+[node name="CoinsRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="CoinsKey" type="Label" parent="Panel/VBox/CoinsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fish this run"
+horizontal_alignment = 2
+
+[node name="CoinValue" type="Label" parent="Panel/VBox/CoinsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 0
+theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="WalletRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="WalletKey" type="Label" parent="Panel/VBox/WalletRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Total fish (wallet)"
+horizontal_alignment = 2
+
+[node name="WalletValue" type="Label" parent="Panel/VBox/WalletRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 22
+
+[node name="CouponLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Estimated Pure service discount (from fish saved)"
+horizontal_alignment = 1
+
+[node name="CouponValue" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "$0.00"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 26
+
+[node name="RedeemBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Redeem coupon"
+
+[node name="ShopBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Fish shop (unlocks)"
+
+[node name="RestartBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Play again"
+
+[node name="HomeBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Back to run"

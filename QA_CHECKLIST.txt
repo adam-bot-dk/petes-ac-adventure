@@ -1,0 +1,27 @@
+Release QA checklist — Pete's AC Adventure
+==========================================
+
+Build
+- [ ] Godot 4.6+ opens project without script errors
+- [ ] Run main scene: res://scenes/runner/TempleRunMain.tscn
+- [ ] Export iOS/Android presets configured in editor (export_presets.cfg generated locally)
+
+Gameplay (3D runner)
+- [ ] Lane change (A/D, arrows, swipe) works with HUD visible
+- [ ] Jump / slide respond; red blocks = jump, teal = slide
+- [ ] Fish collect increases wallet and score; sound plays
+- [ ] Hits reduce lives; shake + sound; game over at 0 lives
+- [ ] Pause opens overlay with Pure branding; resume/restart works
+
+Progression
+- [ ] Wallet and best score persist after closing app (user:// save)
+- [ ] Game over shows best score; shop opens from game over; back returns to run
+- [ ] Shop unlock deducts fish (negative wallet change) and saves
+
+Performance
+- [ ] Long run: spawner child count stays capped (~48)
+- [ ] No runaway memory over 5+ minutes (mobile)
+
+Audio / haptics
+- [ ] Procedural SFX audible on jump, collect, hit
+- [ ] Optional: vibration on hit/collect on Android/iOS device

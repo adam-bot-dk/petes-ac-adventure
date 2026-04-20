@@ -1,0 +1,32 @@
+# Godot 4
+.godot/
+
+# Import cache (older)
+.import/
+
+# Export presets often contain local paths — keep local; uncomment to track
+# export_presets.cfg
+
+# Builds / exports
+export/
+export_presets.cfg
+
+# Mono / C# (if added later)
+.mono/
+data_*/
+mono_crash.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python / tooling
+__pycache__/
+*.pyc
+.venv/

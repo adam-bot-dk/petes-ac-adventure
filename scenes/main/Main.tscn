@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://main"]
+
+[ext_resource type="Script" path="res://scenes/main/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://background" path="res://scenes/main/Background.tscn" id="3_background"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/ObstacleSpawner.tscn" id="4_spawner"]
+[ext_resource type="PackedScene" uid="uid://hud" path="res://scenes/main/HUD.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://gameover" path="res://scenes/main/GameOver.tscn" id="6_gameover"]
+[ext_resource type="Script" path="res://scenes/main/RoadScroll.gd" id="7_road"]
+
+[sub_resource type="RectangleShape2D" id="Ground_collision"]
+size = Vector2(8000, 140)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="WorldBackdrop" type="Polygon2D" parent="."]
+z_index = -200
+color = Color(0.4, 0.72, 0.9, 1)
+polygon = PackedVector2Array(-4000, -2000, 12000, -2000, 12000, 6000, -4000, 6000)
+
+[node name="GroundVisual" type="Polygon2D" parent="."]
+z_index = -190
+color = Color(0.33, 0.27, 0.2, 1)
+polygon = PackedVector2Array(-4000, 1180, 12000, 1180, 12000, 6000, -4000, 6000)
+
+[node name="RoadScroll" type="Node2D" parent="."]
+z_index = -170
+script = ExtResource("7_road")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, 1245)
+shape = SubResource("Ground_collision")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -5000
+limit_right = 15000
+limit_top = -3000
+limit_bottom = 8000
+position_smoothing_enabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="Background" parent="." instance=ExtResource("3_background")]
+
+[node name="ObstacleSpawner" parent="." instance=ExtResource("4_spawner")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("5_hud")]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("6_gameover")]

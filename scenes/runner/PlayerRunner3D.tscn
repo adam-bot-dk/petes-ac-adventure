@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://player_runner_3d"]
+
+[ext_resource type="Script" path="res://scripts/runner/player_runner_3d.gd" id="1_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_stand"]
+radius = 0.38
+height = 1.35
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_slide"]
+size = Vector3(0.95, 0.42, 0.45)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_stand"]
+radius = 0.38
+height = 1.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_slide"]
+size = Vector3(0.95, 0.42, 0.45)
+
+[node name="PlayerRunner3D" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+floor_max_angle = 0.785
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+shape = SubResource("CapsuleShape3D_stand")
+
+[node name="SlideCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+shape = SubResource("BoxShape3D_slide")
+disabled = true
+
+[node name="MeshStand" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+mesh = SubResource("CapsuleMesh_stand")
+
+[node name="MeshSlide" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+visible = false
+mesh = SubResource("BoxMesh_slide")
