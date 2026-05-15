@@ -23,6 +23,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if GameManager.is_paused:
+		return
 	var p: Node3D = get_node_or_null(target_path) as Node3D
 	if p == null:
 		return

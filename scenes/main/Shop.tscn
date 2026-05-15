@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://shop"]
+[gd_scene load_steps=3 format=3 uid="uid://shop"]
 
 [ext_resource type="Script" path="res://scenes/main/Shop.gd" id="1_shop"]
+[ext_resource type="Theme" uid="uid://pure_hvac_theme" path="res://themes/pure_hvac_theme.tres" id="2_theme"]
 
 [node name="Shop" type="Control"]
+theme = ExtResource("2_theme")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,223 +14,81 @@ grow_vertical = 2
 script = ExtResource("1_shop")
 
 [node name="Panel" type="Panel" parent="."]
-layout_mode = 2
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" parent="Panel" type="VBoxContainer"]
+[node name="VBox" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 670.0
-offset_bottom = 1000.0
+offset_left = 32.0
+offset_top = 48.0
+offset_right = -32.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
-[node name="TitleLabel" parent="VBoxContainer" type="Label"]
+[node name="BrandLabel" type="Label" parent="Panel/VBox"]
 layout_mode = 2
-text = "SHOP"
+text = "Pure Heating & Air"
 horizontal_alignment = 1
-offset_left = 200.0
-offset_top = 20.0
-offset_right = 520.0
-offset_bottom = 80.0
-custom_colors/font_color = Color(1, 0.2, 0.2, 1)
-font_size = 56
+theme_override_colors/font_color = Color(0.72, 0.86, 0.98, 1)
+theme_override_font_sizes/font_size = 22
 
-[node name="CoinDisplay" parent="VBoxContainer" type="HBoxContainer"]
-layout_mode = 1
-offset_left = 50.0
-offset_top = 80.0
-offset_right = 670.0
-offset_bottom = 130.0
-
-[node name="CoinLabel" parent="CoinDisplay" type="Label"]
+[node name="TitleLabel" type="Label" parent="Panel/VBox"]
 layout_mode = 2
-text = "Your fish:"
+text = "Fish Shop"
 horizontal_alignment = 1
-offset_left = 20.0
-offset_top = 15.0
-offset_right = 150.0
-offset_bottom = 45.0
+theme_override_font_sizes/font_size = 36
 
-[node name="CoinValue" parent="CoinDisplay" type="Label"]
+[node name="WalletRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="WalletKey" type="Label" parent="Panel/VBox/WalletRow"]
+layout_mode = 2
+text = "Wallet fish:"
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+
+[node name="WalletValue" type="Label" parent="Panel/VBox/WalletRow"]
 layout_mode = 2
 text = "0"
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+theme_override_font_sizes/font_size = 28
+
+[node name="BagLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "In your bag: nothing yet"
+autowrap_mode = 3
 horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 15.0
-offset_right = 300.0
-offset_bottom = 45.0
-custom_colors/font_color = Color(1, 0.84, 0, 1)
-font_size = 32
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.82, 0.86, 0.92, 1)
 
-[node name="VehicleSection" parent="VBoxContainer" type="VBoxContainer"]
-layout_mode = 1
-offset_left = 20.0
-offset_top = 140.0
-offset_right = 700.0
-offset_bottom = 700.0
-theme_override_constants/separation = 15
-
-[node name="VehicleLabel" parent="VehicleSection" type="Label"]
+[node name="Scroll" type="ScrollContainer" parent="Panel/VBox"]
 layout_mode = 2
-text = "VEHICLES"
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemsVBox" type="VBoxContainer" parent="Panel/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="StatusLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = ""
 horizontal_alignment = 1
-offset_left = 100.0
-offset_top = 10.0
-offset_right = 600.0
-offset_bottom = 50.0
-custom_colors/font_color = Color(0, 0.5, 1, 1)
-font_size = 36
+theme_override_colors/font_color = Color(1, 0.75, 0.55, 1)
+theme_override_font_sizes/font_size = 14
 
-[node name="ScooterItem" parent="VehicleSection" type="HBoxContainer"]
-layout_mode = 1
-offset_left = 20.0
-offset_top = 70.0
-offset_right = 700.0
-offset_bottom = 170.0
-
-[node name="VehicleIcon" parent="ScooterItem" type="TextureRect"]
+[node name="BackBtn" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 140.0
-offset_bottom = 120.0
-texture = null
-stretch_mode = 2
-
-[node name="VehicleName" parent="ScooterItem" type="Label"]
-layout_mode = 2
-text = "Service Scooter"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 20.0
-offset_right = 400.0
-offset_bottom = 55.0
-font_size = 28
-
-[node name="VehicleDesc" parent="ScooterItem" type="Label"]
-layout_mode = 2
-text = "Unlock with 500 fish"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 60.0
-offset_right = 400.0
-offset_bottom = 90.0
-font_size = 16
-
-[node name="UnlockScooterBtn" parent="ScooterItem" type="Button"]
-layout_mode = 2
-text = "500"
-horizontal_alignment = 1
-offset_left = 500.0
-offset_top = 20.0
-offset_right = 640.0
-offset_bottom = 100.0
-custom_colors/font_color = Color(1, 1, 1, 1)
-
-[node name="VanItem" parent="VehicleSection" type="HBoxContainer"]
-layout_mode = 1
-offset_left = 20.0
-offset_top = 180.0
-offset_right = 700.0
-offset_bottom = 280.0
-
-[node name="VanIcon" parent="VanItem" type="TextureRect"]
-layout_mode = 2
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 140.0
-offset_bottom = 120.0
-stretch_mode = 2
-
-[node name="VanName" parent="VanItem" type="Label"]
-layout_mode = 2
-text = "Service Van"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 20.0
-offset_right = 400.0
-offset_bottom = 55.0
-font_size = 28
-
-[node name="VanDesc" parent="VanItem" type="Label"]
-layout_mode = 2
-text = "Unlock with 2000 fish"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 60.0
-offset_right = 400.0
-offset_bottom = 90.0
-font_size = 16
-
-[node name="UnlockVanBtn" parent="VanItem" type="Button"]
-layout_mode = 2
-text = "2000"
-horizontal_alignment = 1
-offset_left = 500.0
-offset_top = 20.0
-offset_right = 640.0
-offset_bottom = 100.0
-custom_colors/font_color = Color(1, 1, 1, 1)
-
-[node name="TruckItem" parent="VehicleSection" type="HBoxContainer"]
-layout_mode = 1
-offset_left = 20.0
-offset_top = 290.0
-offset_right = 700.0
-offset_bottom = 390.0
-
-[node name="TruckIcon" parent="TruckItem" type="TextureRect"]
-layout_mode = 2
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 140.0
-offset_bottom = 120.0
-stretch_mode = 2
-
-[node name="TruckName" parent="TruckItem" type="Label"]
-layout_mode = 2
-text = "Work Truck"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 20.0
-offset_right = 400.0
-offset_bottom = 55.0
-font_size = 28
-
-[node name="TruckDesc" parent="TruckItem" type="Label"]
-layout_mode = 2
-text = "Unlock with 5000 fish"
-horizontal_alignment = 1
-offset_left = 160.0
-offset_top = 60.0
-offset_right = 400.0
-offset_bottom = 90.0
-font_size = 16
-
-[node name="UnlockTruckBtn" parent="TruckItem" type="Button"]
-layout_mode = 2
-text = "5000"
-horizontal_alignment = 1
-offset_left = 500.0
-offset_top = 20.0
-offset_right = 640.0
-offset_bottom = 100.0
-custom_colors/font_color = Color(1, 1, 1, 1)
-
-[node name="BackBtn" parent="VBoxContainer" type="Button"]
-layout_mode = 2
-text = "← BACK"
-offset_left = 250.0
-offset_top = 720.0
-offset_right = 470.0
-offset_bottom = 780.0
+text = "Back"

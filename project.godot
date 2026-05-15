@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Pete's AC Adventure"
 config/description="Help Pete deliver cool air in this fun endless runner! Earn real discounts on AC service by playing."
-run/main_scene="res://scenes/runner/TempleRunMain.tscn"
+run/main_scene="res://scenes/main/MainMenu.tscn"
 config/features=PackedStringArray("4.6")
 config/icon="res://icon.svg"
 config/version="0.2.0"
@@ -34,7 +34,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-start_scene="res://scenes/runner/TempleRunMain.tscn"
+start_scene="res://scenes/main/MainMenu.tscn"
 editor_plugins=PackedStringArray()
 
 [export]
@@ -103,4 +103,4 @@ shader_mode/preferred_mode=0
 
 [theme]
 
-theme/theme_path=""
+theme/theme_path="res://themes/pure_hvac_theme.tres"

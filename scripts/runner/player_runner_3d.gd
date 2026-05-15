@@ -42,7 +42,17 @@ func is_player_sliding() -> bool:
 
 
 func take_hit() -> void:
-	if hit_lock or not GameManager.is_game_running:
+	if hit_lock or not GameManager.is_game_running or GameManager.is_paused:
+		return
+	if GameManager.run_shield_active:
+		GameManager.run_shield_active = false
+		_hit_flash_remaining = 0.35
+		_set_hit_flash_visual(true)
+		var cam_shield := get_viewport().get_camera_3d()
+		if cam_shield and cam_shield.has_method("add_shake"):
+			cam_shield.add_shake(0.12)
+		RunnerAudio.play_hit()
+		hit_lock = false
 		return
 	hit_lock = true
 	_hit_flash_remaining = 0.35
@@ -73,6 +83,10 @@ func get_forward_scale() -> float:
 
 
 func _physics_process(delta: float) -> void:
+	if GameManager.is_paused:
+		velocity = Vector3.ZERO
+		return
+
 	if _hit_flash_remaining > 0.0:
 		_hit_flash_remaining -= delta
 		if _hit_flash_remaining <= 0.0:
@@ -143,7 +157,7 @@ func _lane_and_moves_from_input() -> void:
 
 func _input(event: InputEvent) -> void:
 	# Touch: swipe horizontally to change lane (HUD uses mouse_filter IGNORE so this receives)
-	if not GameManager.is_game_running:
+	if not GameManager.is_game_running or GameManager.is_paused:
 		return
 	if _hit_stun_remaining > 0.0:
 		return

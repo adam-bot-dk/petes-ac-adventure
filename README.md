@@ -22,7 +22,7 @@ petes-ac-adventure/
 ├── README.md                  # This file
 ├── addons/
 │   ├── google_game_services/  # Game Center integration
-│   └── coupon_manager/        # Custom coupon system
+│   └── (shop consumables via GameManager)
 ├── assets/
 │   ├── sprites/
 │   │   ├── pete/              # Pete mascot sprites
@@ -128,7 +128,7 @@ Main.tscn expects these children:
 - Goal: Customer loyalty & HVAC leads
 
 **Coupon System:**
-- 1000 coins = $1 off service
+- Spend wallet fish in the **Fish Shop** for extra lives, shields, and run boosts
 - 5000 coins = $5 off + priority service
 - Coupon codes generated in GameOver.gd
 

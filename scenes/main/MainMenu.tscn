@@ -1,0 +1,118 @@
+[gd_scene load_steps=3 format=3 uid="uid://main_menu_pure"]
+
+[ext_resource type="Script" path="res://scenes/main/MainMenu.gd" id="1_menu"]
+[ext_resource type="Theme" uid="uid://pure_hvac_theme" path="res://themes/pure_hvac_theme.tres" id="2_theme"]
+
+[node name="MainMenu" type="Control"]
+theme = ExtResource("2_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="RootPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="RootPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="RootPanel/Center"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="BrandLabel" type="Label" parent="RootPanel/Center/VBox"]
+layout_mode = 2
+text = "Pure Heating & Air"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.78, 0.9, 0.99, 1)
+theme_override_font_sizes/font_size = 34
+
+[node name="GameTitle" type="Label" parent="RootPanel/Center/VBox"]
+layout_mode = 2
+text = "Pete's AC Adventure"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.92, 0.94, 0.97, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="Tagline" type="Label" parent="RootPanel/Center/VBox"]
+layout_mode = 2
+text = "Cool runs. Honest service. One-thumb endless fun."
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.88, 1)
+theme_override_font_sizes/font_size = 16
+
+[node name="PlayBtn" type="Button" parent="RootPanel/Center/VBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Play"
+
+[node name="ShopBtn" type="Button" parent="RootPanel/Center/VBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Fish shop"
+
+[node name="HowBtn" type="Button" parent="RootPanel/Center/VBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "How to play"
+
+[node name="QuitBtn" type="Button" parent="RootPanel/Center/VBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Quit"
+
+[node name="HowPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="HowCenter" type="CenterContainer" parent="HowPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HowVBox" type="VBoxContainer" parent="HowPanel/HowCenter"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HowTitle" type="Label" parent="HowPanel/HowCenter/HowVBox"]
+layout_mode = 2
+text = "How to play"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+
+[node name="HowBody" type="Label" parent="HowPanel/HowCenter/HowVBox"]
+layout_mode = 2
+text = "Swipe left/right or use A/D to change lanes. Jump over red HVAC blocks. Slide under teal low ducts. Collect fish for your wallet and spend them in the Fish Shop for extra lives, shields, and run boosts."
+autowrap_mode = 3
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 17
+
+[node name="CloseBtn" type="Button" parent="HowPanel/HowCenter/HowVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Got it"

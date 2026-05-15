@@ -51,7 +51,7 @@ func _ground_y() -> float:
 	return 1156.0
 
 func _process(delta: float) -> void:
-	if not GameManager.is_game_running:
+	if not GameManager.is_game_running or GameManager.is_paused:
 		return
 	obstacle_timer -= delta
 	collectible_timer -= delta

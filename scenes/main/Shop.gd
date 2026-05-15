@@ -1,85 +1,107 @@
 extends Control
 
-# Vehicle Shop
-# Unlock vehicles with earned coins
+## Wallet fish shop — buy consumables for the next run.
 
-var coin_value: Label
-var unlock_buttons: Array[Button]
-var vehicle_costs = ["500", "2000", "5000"]
+@onready var _wallet_value: Label = $Panel/VBox/WalletRow/WalletValue
+@onready var _bag_label: Label = $Panel/VBox/BagLabel
+@onready var _items_vbox: VBoxContainer = $Panel/VBox/Scroll/ItemsVBox
+@onready var _status_label: Label = $Panel/VBox/StatusLabel
 
-func _ready():
-	# Get references
-	coin_value = $Panel/VBoxContainer/CoinDisplay/CoinValue
-	unlock_buttons = [$Panel/VBoxContainer/VehicleSection/ScooterItem/UnlockScooterBtn,
-					  $Panel/VBoxContainer/VehicleSection/VanItem/UnlockVanBtn,
-					  $Panel/VBoxContainer/VehicleSection/TruckItem/UnlockTruckBtn]
-	
-	# Connect signals
-	for btn in unlock_buttons:
-		btn.pressed.connect(_on_unlock_pressed)
-	$Panel/VBoxContainer/BackBtn.pressed.connect(_on_back_pressed)
+var _buy_buttons: Dictionary = {}
+var _owned_labels: Dictionary = {}
 
-	GameManager.coin_updated.connect(_update_ui)
-	
-	_update_ui()
 
-func _update_ui():
-	"""Update shop UI with current coins and unlocked status"""
-	coin_value.text = str(GameManager.total_coins_earned)
-	
-	# Update button states
-	_check_unlocks()
+func _ready() -> void:
+	$Panel/VBox/BackBtn.pressed.connect(_on_back_pressed)
+	GameManager.coin_updated.connect(_on_wallet_changed)
+	GameManager.shop_inventory_updated.connect(_refresh_all)
+	_build_item_rows()
+	_refresh_all()
 
-func _check_unlocks():
-	"""Check and update button states for each vehicle"""
-	for i in range(3):
-		var cost = int(vehicle_costs[i])
-		var unlocked = GameManager.can_unlock_vehicle(vehicle_costs[i].to_lower())
-		var btn = unlock_buttons[i]
-		
-		if unlocked:
-			btn.text = "✓ UNLOCKED"
-			btn.disabled = true
-			btn.modulate = Color(0.5, 1, 0.5)
-		else:
-			btn.text = str(cost)
-			btn.disabled = GameManager.total_coins_earned < cost
-			if GameManager.total_coins_earned >= cost:
-				btn.modulate = Color(1, 1, 1)
-			else:
-				btn.modulate = Color(0.5, 0.5, 0.5)
 
-func _on_unlock_pressed():
-	"""Handle vehicle unlock attempt"""
-	var btn = $Panel/VBoxContainer/VehicleSection/VehicleSection.find_child("UnlockVanBtn").next_sibling()
-	if btn == null:
-		btn = get_parent().find_child("UnlockVanBtn")
-	
-	var cost = int(btn.text)
-	
-	if GameManager.total_coins_earned >= cost:
-		# Deduct coins
-		GameManager.add_coins(-cost)
-		print("Vehicle unlocked!")
-		_check_unlocks()
+func _build_item_rows() -> void:
+	for child in _items_vbox.get_children():
+		child.queue_free()
+	_buy_buttons.clear()
+	_owned_labels.clear()
+
+	for item_id in GameManager.CONSUMABLES:
+		var data: Dictionary = GameManager.CONSUMABLES[item_id]
+		var row := PanelContainer.new()
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var margin := MarginContainer.new()
+		margin.add_theme_constant_override("margin_left", 8)
+		margin.add_theme_constant_override("margin_right", 8)
+		margin.add_theme_constant_override("margin_top", 8)
+		margin.add_theme_constant_override("margin_bottom", 8)
+		row.add_child(margin)
+
+		var h := HBoxContainer.new()
+		h.add_theme_constant_override("separation", 12)
+		margin.add_child(h)
+
+		var text_col := VBoxContainer.new()
+		text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		text_col.add_theme_constant_override("separation", 4)
+		h.add_child(text_col)
+
+		var name_l := Label.new()
+		name_l.text = data["display"]
+		name_l.add_theme_font_size_override("font_size", 20)
+		text_col.add_child(name_l)
+
+		var desc_l := Label.new()
+		desc_l.text = data["description"]
+		desc_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		desc_l.add_theme_font_size_override("font_size", 14)
+		desc_l.add_theme_color_override("font_color", Color(0.78, 0.82, 0.88))
+		text_col.add_child(desc_l)
+
+		var owned_l := Label.new()
+		owned_l.add_theme_font_size_override("font_size", 13)
+		text_col.add_child(owned_l)
+		_owned_labels[item_id] = owned_l
+
+		var buy_btn := Button.new()
+		buy_btn.custom_minimum_size = Vector2(120, 44)
+		var cost: int = int(data["cost"])
+		buy_btn.text = "%d fish" % cost
+		buy_btn.pressed.connect(_on_buy_pressed.bind(item_id))
+		h.add_child(buy_btn)
+		_buy_buttons[item_id] = buy_btn
+
+		_items_vbox.add_child(row)
+
+
+func _refresh_all() -> void:
+	_wallet_value.text = str(GameManager.coins)
+	_bag_label.text = GameManager.get_inventory_summary()
+	_status_label.text = ""
+	for item_id in GameManager.CONSUMABLES:
+		var btn: Button = _buy_buttons.get(item_id)
+		if btn:
+			var cost: int = int(GameManager.CONSUMABLES[item_id]["cost"])
+			btn.disabled = GameManager.coins < cost
+		var owned: Label = _owned_labels.get(item_id)
+		if owned:
+			var n: int = GameManager.get_inventory_count(item_id)
+			owned.text = "Owned: %d" % n if n > 0 else ""
+
+
+func _on_wallet_changed(_coins: int) -> void:
+	_refresh_all()
+
+
+func _on_buy_pressed(item_id: String) -> void:
+	if GameManager.buy_consumable(item_id):
+		_status_label.text = "Purchased %s!" % GameManager.CONSUMABLES[item_id]["display"]
 	else:
-		print("Not enough fish!")
+		_status_label.text = "Need more fish in your wallet."
+	_refresh_all()
 
-func _open_shop():
-	"""Show shop overlay"""
-	visible = true
-	modulate.a = 0
-	_create_fade_in_animation()
-
-func _create_fade_in_animation():
-	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 1.0, 0.3)
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/runner/TempleRunMain.tscn")
-
-
-func _close_shop():
-	"""Hide shop"""
-	visible = false
-	modulate.a = 0
+	var path: String = GameManager.shop_return_scene
+	if path.is_empty():
+		path = "res://scenes/main/MainMenu.tscn"
+	get_tree().change_scene_to_file(path)

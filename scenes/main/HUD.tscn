@@ -1,176 +1,134 @@
-[gd_scene load_steps=2 format=3 uid="uid://hud"]
+[gd_scene load_steps=3 format=3 uid="uid://hud"]
 
 [ext_resource type="Script" path="res://scenes/main/HUD.gd" id="1_hud"]
+[ext_resource type="Theme" uid="uid://pure_hvac_theme" path="res://themes/pure_hvac_theme.tres" id="2_theme"]
 
 [node name="HUD" type="Control"]
+theme = ExtResource("2_theme")
 mouse_filter = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hud")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-mouse_filter = 2
+[node name="TopBar" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = 112.0
 grow_horizontal = 2
-grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
 
-[node name="ScoreContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = -150.0
-offset_top = 20.0
-offset_right = 150.0
-offset_bottom = 50.0
-grow_horizontal = 2
+[node name="StatsColumn" type="VBoxContainer" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 4
 
-[node name="ScoreLabel" type="Label" parent="VBoxContainer/ScoreContainer"]
+[node name="ScoreRow" type="HBoxContainer" parent="TopBar/StatsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScoreLabel" type="Label" parent="TopBar/StatsColumn/ScoreRow"]
 layout_mode = 2
 text = "SCORE"
-horizontal_alignment = 1
-offset_left = 20.0
-offset_top = 5.0
-offset_right = 120.0
-offset_bottom = 45.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
 
-[node name="ScoreValue" type="Label" parent="VBoxContainer/ScoreContainer"]
+[node name="ScoreValue" type="Label" parent="TopBar/StatsColumn/ScoreRow"]
 layout_mode = 2
 text = "0"
-horizontal_alignment = 1
-offset_left = 130.0
-offset_top = 5.0
-offset_right = 230.0
-offset_bottom = 45.0
+theme_override_font_sizes/font_size = 24
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 26
 
-[node name="CoinContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = -150.0
-offset_top = 50.0
-offset_right = 150.0
-offset_bottom = 80.0
-grow_horizontal = 2
+[node name="CoinRow" type="HBoxContainer" parent="TopBar/StatsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="CoinLabel" type="Label" parent="VBoxContainer/CoinContainer"]
+[node name="CoinLabel" type="Label" parent="TopBar/StatsColumn/CoinRow"]
 layout_mode = 2
 text = "FISH"
-horizontal_alignment = 1
-offset_left = 20.0
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 35.0
-theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
 
-[node name="CoinValue" type="Label" parent="VBoxContainer/CoinContainer"]
+[node name="CoinValue" type="Label" parent="TopBar/StatsColumn/CoinRow"]
 layout_mode = 2
 text = "0"
-horizontal_alignment = 1
-offset_left = 110.0
-offset_top = 5.0
-offset_right = 190.0
-offset_bottom = 35.0
-theme_override_colors/font_color = Color(1, 0.84, 0, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
 
-[node name="StarContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = -150.0
-offset_top = 80.0
-offset_right = 150.0
-offset_bottom = 110.0
-grow_horizontal = 2
+[node name="StarRow" type="HBoxContainer" parent="TopBar/StatsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="StarLabel" type="Label" parent="VBoxContainer/StarContainer"]
+[node name="StarLabel" type="Label" parent="TopBar/StatsColumn/StarRow"]
 layout_mode = 2
 text = "STARS"
-horizontal_alignment = 1
-offset_left = 20.0
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 35.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_color = Color(1, 0.95, 0.55, 1)
 
-[node name="StarValue" type="Label" parent="VBoxContainer/StarContainer"]
+[node name="StarValue" type="Label" parent="TopBar/StatsColumn/StarRow"]
 layout_mode = 2
 text = "0"
-horizontal_alignment = 1
-offset_left = 110.0
-offset_top = 5.0
-offset_right = 190.0
-offset_bottom = 35.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.95, 0.55, 1)
 
-[node name="LivesContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 400.0
-offset_top = 20.0
-offset_right = 480.0
-offset_bottom = 50.0
-grow_horizontal = 2
+[node name="Spacer" type="Control" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="Heart1" type="Label" parent="VBoxContainer/LivesContainer"]
+[node name="LivesColumn" type="VBoxContainer" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="LivesRow" type="HBoxContainer" parent="TopBar/LivesColumn"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 6
+
+[node name="Heart1" type="Label" parent="TopBar/LivesColumn/LivesRow"]
 layout_mode = 2
 text = "♥"
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 0.25, 0.3, 1)
+theme_override_font_sizes/font_size = 22
 
-[node name="Heart2" type="Label" parent="VBoxContainer/LivesContainer"]
+[node name="Heart2" type="Label" parent="TopBar/LivesColumn/LivesRow"]
 layout_mode = 2
 text = "♥"
-theme_override_colors/font_color = Color(0.5, 0, 0, 1)
+theme_override_colors/font_color = Color(0.55, 0.12, 0.15, 1)
+theme_override_font_sizes/font_size = 22
 
-[node name="Heart3" type="Label" parent="VBoxContainer/LivesContainer"]
+[node name="Heart3" type="Label" parent="TopBar/LivesColumn/LivesRow"]
 layout_mode = 2
 text = "♥"
-theme_override_colors/font_color = Color(0.5, 0, 0, 1)
+theme_override_colors/font_color = Color(0.55, 0.12, 0.15, 1)
+theme_override_font_sizes/font_size = 22
 
-[node name="PauseButton" type="Button" parent="VBoxContainer"]
+[node name="Heart4" type="Label" parent="TopBar/LivesColumn/LivesRow"]
+layout_mode = 2
+text = "♥"
+theme_override_colors/font_color = Color(0.55, 0.12, 0.15, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="LivesCountLabel" type="Label" parent="TopBar/LivesColumn"]
+layout_mode = 2
+text = "LIVES 3/3"
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.92, 0.93, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="PauseButton" type="Button" parent="TopBar"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 0
-layout_mode = 2
-anchors_preset = 8
-anchor_left = 0.95
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-offset_left = 660.0
-offset_top = 15.0
-offset_right = 705.0
-offset_bottom = 60.0
 text = "⏸"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.92, 0.95, 1, 1)

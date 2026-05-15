@@ -11,6 +11,7 @@ const _TIPS: Array[String] = [
 func _ready() -> void:
 	GameManager.reset_game()
 	GameManager.start_game()
+	GameManager.apply_run_consumables()
 	var hud: Control = get_node_or_null("CanvasLayer/HUD")
 	if hud and hud.has_method("update_all"):
 		hud.update_all()
@@ -32,17 +33,40 @@ func _add_run_tip() -> void:
 
 
 func _process(delta: float) -> void:
-	if GameManager.is_game_running:
-		var fs: float = 1.0
-		var p: Node = get_node_or_null("Player")
-		if p and p.has_method("get_forward_scale"):
-			fs = p.get_forward_scale()
-		GameManager.update_score(delta, fs)
+	if not GameManager.is_game_running or GameManager.is_paused:
+		return
+	var fs: float = 1.0
+	var p: Node = get_node_or_null("Player")
+	if p and p.has_method("get_forward_scale"):
+		fs = p.get_forward_scale()
+	fs *= GameManager.get_run_forward_multiplier()
+	GameManager.update_score(delta, fs)
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and GameManager.is_game_running:
-		GameManager.pause_game()
-		var hud: Control = get_node_or_null("CanvasLayer/HUD")
-		if hud and hud.has_method("show_pause_menu"):
-			hud.show_pause_menu()
+	if not event.is_action_pressed("pause"):
+		return
+	if not GameManager.is_game_running:
+		return
+	var hud: Control = get_node_or_null("CanvasLayer/HUD")
+	if GameManager.is_paused:
+		_resume_run(hud)
+		return
+	GameManager.pause_game()
+	if hud and hud.has_method("show_pause_menu"):
+		hud.show_pause_menu()
+
+
+func _resume_run(hud: Control) -> void:
+	GameManager.resume_game()
+	if hud and hud.has_method("hide_pause_menu"):
+		hud.hide_pause_menu()
+
+
+func request_pause_menu() -> void:
+	if not GameManager.is_game_running or GameManager.is_paused:
+		return
+	GameManager.pause_game()
+	var hud: Control = get_node_or_null("CanvasLayer/HUD")
+	if hud and hud.has_method("show_pause_menu"):
+		hud.show_pause_menu()

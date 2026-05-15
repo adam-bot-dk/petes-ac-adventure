@@ -15,7 +15,7 @@ var _cooldown: float = 0.35
 
 
 func _process(delta: float) -> void:
-	if not GameManager.is_game_running or _player == null:
+	if not GameManager.is_game_running or GameManager.is_paused or _player == null:
 		return
 	if get_child_count() >= max_spawned_children:
 		return

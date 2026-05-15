@@ -25,14 +25,28 @@ func _start_new_game():
 	GameManager.start_game()
 	hud.update_all()
 
+
+func request_pause_menu() -> void:
+	if not GameManager.is_game_running or GameManager.is_paused:
+		return
+	GameManager.pause_game()
+	hud.show_pause_menu()
+
+
 func _input(event):
-	if event.is_action_pressed("pause"):
-		if GameManager.is_game_running:
-			GameManager.pause_game()
-			hud.show_pause_menu()
+	if not event.is_action_pressed("pause"):
+		return
+	if not GameManager.is_game_running:
+		return
+	if GameManager.is_paused:
+		GameManager.resume_game()
+		hud.hide_pause_menu()
+		return
+	GameManager.pause_game()
+	hud.show_pause_menu()
 
 func _process(delta):
-	if not GameManager.is_game_running:
+	if not GameManager.is_game_running or GameManager.is_paused:
 		return
 	
 	# Update game score

@@ -1,7 +1,8 @@
 extends Control
 
-# HUD Controller
-# Manages score, fish tally (GameManager.coins), lives display
+# HUD Controller — score, fish, lives, pause (runner + legacy 2D main)
+
+const PAUSE_OVERLAY_SCENE := preload("res://scenes/ui/PauseOverlay.tscn")
 
 var score_label: Label
 var coin_label: Label
@@ -11,31 +12,28 @@ var pause_button: Button
 var _pause_overlay: Control
 var _lives_count_label: Label
 
-func _ready():
-	# Get references
-	score_label = $VBoxContainer/ScoreContainer/ScoreValue
-	coin_label = $VBoxContainer/CoinContainer/CoinValue
-	star_label = $VBoxContainer/StarContainer/StarValue
-	heart_labels = [$VBoxContainer/LivesContainer/Heart1, 
-					$VBoxContainer/LivesContainer/Heart2, 
-					$VBoxContainer/LivesContainer/Heart3]
-	pause_button = $VBoxContainer/PauseButton
-	_lives_count_label = Label.new()
-	_lives_count_label.text = "LIVES 3/3"
-	_lives_count_label.position = Vector2(500, 52)
-	_lives_count_label.add_theme_font_size_override("font_size", 16)
-	_lives_count_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.9))
-	add_child(_lives_count_label)
+
+func _ready() -> void:
+	score_label = $TopBar/StatsColumn/ScoreRow/ScoreValue
+	coin_label = $TopBar/StatsColumn/CoinRow/CoinValue
+	star_label = $TopBar/StatsColumn/StarRow/StarValue
+	heart_labels = [
+		$TopBar/LivesColumn/LivesRow/Heart1,
+		$TopBar/LivesColumn/LivesRow/Heart2,
+		$TopBar/LivesColumn/LivesRow/Heart3,
+		$TopBar/LivesColumn/LivesRow/Heart4,
+	]
+	_lives_count_label = $TopBar/LivesColumn/LivesCountLabel
+	pause_button = $TopBar/PauseButton
+	pause_button.pressed.connect(_on_pause_button_pressed)
 	_apply_mouse_ignore_except_pause(self)
 
-	# Connect signals
 	GameManager.score_updated.connect(_on_score_updated)
 	GameManager.coin_updated.connect(_on_coin_updated)
 	GameManager.star_updated.connect(_on_star_updated)
 	GameManager.lives_updated.connect(_on_lives_updated)
 	GameManager.game_over.connect(_on_game_over)
-	
-	# Initial update
+
 	update_all()
 
 
@@ -48,102 +46,74 @@ func _apply_mouse_ignore_except_pause(n: Node) -> void:
 		_apply_mouse_ignore_except_pause(child)
 
 
-func update_all():
-	"""Update all HUD elements"""
+func _on_pause_button_pressed() -> void:
+	var root := get_tree().current_scene
+	if root and root.has_method("request_pause_menu"):
+		root.request_pause_menu()
+		return
+	if GameManager.is_game_running and not GameManager.is_paused:
+		GameManager.pause_game()
+		show_pause_menu()
+
+
+func update_all() -> void:
 	score_label.text = str(GameManager.score)
 	coin_label.text = str(GameManager.coins)
 	star_label.text = str(GameManager.stars)
 	update_lives()
 
-func update_lives():
-	"""Update heart icons"""
-	for i in range(3):
-		var c := Color(1, 0, 0, 1) if i < GameManager.lives else Color(0.5, 0, 0, 1)
+
+func update_lives() -> void:
+	var max_lives: int = GameManager.MAX_LIVES
+	for i in range(heart_labels.size()):
+		var c := Color(1, 0.28, 0.32, 1) if i < GameManager.lives else Color(0.5, 0.12, 0.14, 1)
 		heart_labels[i].add_theme_color_override("font_color", c)
 	if _lives_count_label:
-		_lives_count_label.text = "LIVES %d/3" % GameManager.lives
+		_lives_count_label.text = "LIVES %d/%d" % [GameManager.lives, max_lives]
 
-func _on_score_updated(new_score):
+
+func _on_score_updated(new_score: int) -> void:
 	score_label.text = str(new_score)
 
-func _on_coin_updated(new_coins):
+
+func _on_coin_updated(new_coins: int) -> void:
 	coin_label.text = str(new_coins)
 
-func _on_star_updated(new_stars):
+
+func _on_star_updated(new_stars: int) -> void:
 	star_label.text = str(new_stars)
 
-func _on_lives_updated(new_lives):
+
+func _on_lives_updated(_new_lives: int) -> void:
 	update_lives()
 
-func _on_game_over(_won):
+
+func _on_game_over(_won: bool) -> void:
 	pass
+
 
 func hide_pause_menu() -> void:
 	if _pause_overlay:
 		_pause_overlay.queue_free()
 		_pause_overlay = null
 
-func show_pause_menu():
-	"""Show pause overlay"""
+
+func show_pause_menu() -> void:
 	hide_pause_menu()
-	_pause_overlay = create_pause_panel()
-	add_child(_pause_overlay)
+	var overlay: Control = PAUSE_OVERLAY_SCENE.instantiate() as Control
+	_pause_overlay = overlay
+	overlay.resume_pressed.connect(_on_pause_overlay_resume)
+	overlay.restart_pressed.connect(_on_pause_overlay_restart)
+	add_child(overlay)
+	overlay.move_to_front()
 
-func create_pause_panel():
-	"""Create pause menu overlay"""
-	var panel = PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", create_dark_stylebox())
-	panel.position = Vector2(0, 0)
-	panel.size = Vector2(720, 1280)
-	
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 20)
-	vbox.position = Vector2(100, 200)
-	vbox.size = Vector2(520, 500)
-	panel.add_child(vbox)
-	
-	var brand = Label.new()
-	brand.text = "Pure Heating & Air"
-	brand.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	brand.add_theme_font_size_override("font_size", 22)
-	brand.add_theme_color_override("font_color", Color(0.75, 0.88, 1.0))
-	vbox.add_child(brand)
 
-	var subtitle = Label.new()
-	subtitle.text = "Pete's AC Adventure"
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.add_theme_font_size_override("font_size", 17)
-	subtitle.add_theme_color_override("font_color", Color(0.85, 0.85, 0.9))
-	vbox.add_child(subtitle)
-
-	var title = Label.new()
-	title.text = "PAUSED"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 48)
-	vbox.add_child(title)
-	
-	var resume_btn = Button.new()
-	resume_btn.text = "▶ RESUME"
-	resume_btn.pressed.connect(_on_resume_pressed)
-	vbox.add_child(resume_btn)
-	
-	var restart_btn = Button.new()
-	restart_btn.text = "🔄 RESTART"
-	restart_btn.pressed.connect(_on_restart_pressed)
-	vbox.add_child(restart_btn)
-	
-	return panel
-
-func _on_resume_pressed():
+func _on_pause_overlay_resume() -> void:
 	GameManager.resume_game()
-	get_tree().reload_current_scene()
+	hide_pause_menu()
 
-func _on_restart_pressed():
-	get_tree().reload_current_scene()
 
-func create_dark_stylebox():
-	var stylebox = StyleBoxFlat.new()
-	stylebox.bg_color = Color(0, 0, 0, 0.8)
-	stylebox.set_border_width_all(2)
-	stylebox.border_color = Color(1, 1, 1, 0.3)
-	return stylebox
+func _on_pause_overlay_restart() -> void:
+	GameManager.resume_game()
+	hide_pause_menu()
+	get_tree().reload_current_scene()
